@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Environnements virtuels
+.venv/
+venv/
+env/
+
+# Logs
+logs/*
+!logs/.gitkeep
+
+# Modèles générés
+models/*
+!models/.gitkeep
+
+# Résultats générés
+results/*
+!results/.gitkeep
+
+# Données brutes
+data/raw/*
+!data/raw/.gitkeep
+
+# Fichiers temporaires
+*.tmp
+.DS_Store
