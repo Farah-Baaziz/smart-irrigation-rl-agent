@@ -39,3 +39,6 @@ data/raw/*
 
 # Sauvegardes
 *.bak
+
+# Sauvegardes
+*.bak
