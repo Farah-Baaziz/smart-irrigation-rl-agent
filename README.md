@@ -159,9 +159,6 @@ irrigation_agent/
 - Test RecurrentPPO (`sb3-contrib`) for partial observability.
 - Replace the template explanations with a language model, keeping the numbers fixed by the agent.
 
-## License
-
-MIT (to be confirmed by the authors).
 
 ## Acknowledgements
 
