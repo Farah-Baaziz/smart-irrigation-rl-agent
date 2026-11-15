@@ -40,12 +40,13 @@ ACTION_LEVELS_MM = [0.0, 5.0, 10.0, 15.0, 20.0]
 MAX_IRRIG_MM = 20.0
 
 # --------------------------------------------------------------------------
-# Récompense : r_t = d_rendement/YIELD_SCALE - LAMBDA*eau_mm - MU*(1-swfac)
+# Récompense : r_t = d_rendement/YIELD_SCALE - LAMBDA*eau_mm - MU*swfac
+# Convention gym-DSSAT : 0 = pas de stress, 1 = stress maximal
 # --------------------------------------------------------------------------
 YIELD_SCALE = 1000.0     # kg/ha -> t/ha
 LAMBDA_WATER = 0.004     # coût d'1 mm d'eau (en t/ha équivalent) -> 4 kg/ha par mm
-MU_STRESS = 0.02         # pénalité par jour de stress (1 - swfac)
-STRESS_THRESHOLD = 0.9   # swfac < 0.9  => "jour de stress"
+MU_STRESS = 0.02         # pénalité liée au stress hydrique
+STRESS_THRESHOLD = 0.9   # swfac >= 0.9 => jour de stress
 
 # --------------------------------------------------------------------------
 # Capteurs / observation

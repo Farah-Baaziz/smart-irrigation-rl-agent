@@ -18,7 +18,7 @@ import gymnasium as gym
 from gymnasium import spaces
 
 from . import config as C
-from .dssat_factory import make_dssat, raw_reset, raw_step
+from .dssat_factory import make_dssat, raw_reset, raw_step, get_full_state
 from .features import get_sw, daily_features, sw_root
 
 
@@ -46,7 +46,8 @@ class IrrigationEnv(gym.Env):
         self.levels = [min(float(x), self.max_mm) for x in lv]
 
         # Un premier reset sert à inspecter la structure ; il est réutilisé pour l'épisode 1
-        self._first_obs = raw_reset(self.env)
+        raw_reset(self.env)
+        self._first_obs = get_full_state(self.env)
         self._first_pending = True
         self._init_episode(self._first_obs)
 
@@ -137,7 +138,8 @@ class IrrigationEnv(gym.Env):
             raw = self._first_obs
             self._first_pending = False
         else:
-            raw = raw_reset(self.env)
+            raw_reset(self.env)
+            raw = get_full_state(self.env)
         self._init_episode(raw)
         return self._last_obs, {}
 
@@ -154,18 +156,17 @@ class IrrigationEnv(gym.Env):
                    xlai=float(self._raw.get("xlai", 0.0) or 0.0))
         self.log.append(row)
 
-        raw, _, done, _ = raw_step(self.env, self._fmt_action(mm))
-        if raw is None:                 # sécurité : certaines versions renvoient None à la fin
-            raw = self._raw
+        _, _, done, _ = raw_step(self.env, self._fmt_action(mm))
+        raw = get_full_state(self.env)
         grn = float(raw.get("grnwt", self._prev_grn) or 0.0)
         swf = float(raw.get("swfac", 1.0))
 
-        reward = (grn - self._prev_grn) / C.YIELD_SCALE - self.lam * mm - self.mu * (1.0 - swf)
+        reward = (grn - self._prev_grn) / C.YIELD_SCALE - self.lam * mm - self.mu * swf
         self._prev_grn = grn
         self.irrig_total += mm
         self.n_events += int(mm > 0)
         self.rain_total += float(raw.get("rain", 0.0) or 0.0)
-        self.stress_days += int(swf < C.STRESS_THRESHOLD)
+        self.stress_days += int(swf >= C.STRESS_THRESHOLD)
         self.swfac_sum += swf
         self.tmax_sum += float(raw.get("tmax", 0.0) or 0.0)
         self.reward_total += reward

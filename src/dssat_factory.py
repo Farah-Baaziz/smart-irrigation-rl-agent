@@ -46,3 +46,9 @@ def raw_step(env, action_dict):
         obs, reward, done, info = out
         done = bool(done)
     return obs, reward, done, info
+
+
+def get_full_state(env):
+    """Récupère l’état complet de gym-DSSAT, avant filtrage des observations."""
+    base_env = env.unwrapped
+    return dict(base_env._state)

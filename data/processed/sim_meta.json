@@ -1,0 +1,12 @@
+{
+  "features": [
+    "sw_root",
+    "sw_top",
+    "rain",
+    "tmax",
+    "tmin",
+    "srad",
+    "dap",
+    "irrig_prev"
+  ]
+}

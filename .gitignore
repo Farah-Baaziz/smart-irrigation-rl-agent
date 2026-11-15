@@ -27,3 +27,15 @@ data/raw/*
 # Fichiers temporaires
 *.tmp
 .DS_Store
+
+# Secrets
+.env
+*.key
+
+# Poids de modèles
+*.pt
+*.pth
+*.pkl
+
+# Sauvegardes
+*.bak
